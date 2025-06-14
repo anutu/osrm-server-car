@@ -13,6 +13,10 @@ CONFIRM=$(awk '/download/ {print $NF}' /tmp/gpage | sed 's/.*confirm=//' | sed '
 echo "3. Скачиваем файл..."
 curl -Lb /tmp/gcookie "https://drive.google.com/uc?export=download&confirm=${CONFIRM}&id=${FILEID}" -o ${FILENAME}
 
-echo "4. Распаковываем..."
+echo "4. Проверка типа файла..."
+file ${FILENAME} || true
+head -c 200 ${FILENAME} || true
+
+echo "5. Распаковываем..."
 tar -xzf ${FILENAME}
 rm ${FILENAME}
