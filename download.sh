@@ -13,7 +13,8 @@ gdown "https://drive.google.com/uc?id=1y5vINZLHcC8J6NgYsowRJE7hZUHS6FKu" -O osrm
 file osrm-car.tgz
 
 # Распаковываем
-tar -xzf osrm-car.tgz || { echo "❌ Ошибка при распаковке!"; exit 3; }
+tar --no-same-owner -xzf osrm-car.tgz
+ || { echo "❌ Ошибка при распаковке!"; exit 3; }
 
 # Убираем архив
 rm osrm-car.tgz
