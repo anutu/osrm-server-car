@@ -1,14 +1,16 @@
-FROM debian:bullseye-slim AS downloader
+FROM python:3.10-slim as downloader
 
-RUN apt-get update && apt-get install -y curl tar grep sed bash && rm -rf /var/lib/apt/lists/*
 WORKDIR /data
+
+# Устанавливаем gdown и bash
+RUN apt-get update && \
+    apt-get install -y curl gnupg bash && \
+    pip install gdown && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY download.sh /data/
 RUN bash download.sh
 
 FROM osrm/osrm-backend
-WORKDIR /data
-COPY --from=downloader /data /data
 
-EXPOSE 5000
-CMD ["osrm-routed", "--algorithm", "ch", "/data/volga-fed-district-latest.osrm"]
+COPY --from=downloader /data /data
