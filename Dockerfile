@@ -2,8 +2,10 @@ FROM osrm/osrm-backend
 
 WORKDIR /data
 
-# Для Alpine-based образов
-RUN apk add --no-cache curl grep sed tar bash
+# Используем apt-get, но добавляем флаги для минимизации проблем
+RUN apt-get update && \
+    apt-get install -y curl grep sed tar && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN FILEID=1y5vINZLHcC8J6NgYsowRJE7hZUHS6FKu && \
     curl -sc /tmp/cookie "https://drive.google.com/uc?export=download&id=${FILEID}" > /tmp/intermediate.html && \
