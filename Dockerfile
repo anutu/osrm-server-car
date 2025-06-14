@@ -2,7 +2,6 @@ FROM python:3.10-slim as downloader
 
 WORKDIR /data
 
-# Устанавливаем gdown и bash
 RUN apt-get update && \
     apt-get install -y curl gnupg bash && \
     pip install gdown && \
